@@ -11,6 +11,12 @@ class administration::user {
     ensure => present,
     require => Class["administration::group"],
   }
+  
+  class { 'sudo': }
+  sudo::conf { 'admins':
+    priority => 10,
+    content  => "%wheel ALL=(ALL) NOPASSWD: ALL\n",
+  }
 
   user {'root':
     password => '!'
